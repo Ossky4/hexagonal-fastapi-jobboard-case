@@ -10,9 +10,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from src.jobboard.adapters.db.orm import metadata
-from src.jobboard.configurator.config import settings
 from tests.fake_container import Container
-from tests.utils.users import authentication_token_from_email
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test_db.db"
 engine = create_engine(
@@ -94,6 +92,9 @@ def normal_user_token_headers(
     get_fake_container,
     app,
 ):
+    from src.jobboard.configurator.config import settings
+    from tests.utils.users import authentication_token_from_email
+
     with app.container.user_service.override(get_fake_container.fake_user_service):
         return authentication_token_from_email(
             client=client,
