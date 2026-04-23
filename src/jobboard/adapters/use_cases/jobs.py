@@ -72,8 +72,7 @@ class JobService(JobServiceInterface):
             existing_job = self.uow.jobs.get_by_id_for_update(id_)
             if not existing_job:
                 return _handle_response_failure(id_)
-            job.__dict__.update(owner_id=owner_id)
-            existing_job.owner_id = job.owner_id
+            existing_job.owner_id = owner_id
             self.uow.commit()
             job_ = self.uow.jobs.get(id_)
             return ResponseSuccess(JobOutputDto.from_orm(job_))
