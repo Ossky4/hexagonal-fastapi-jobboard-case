@@ -10,7 +10,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from src.jobboard.adapters.db.orm import metadata
-from src.jobboard.adapters.entrypoints.application import app as original_app
 from src.jobboard.configurator.config import settings
 from tests.fake_container import Container
 from tests.utils.users import authentication_token_from_email
@@ -30,6 +29,8 @@ def get_fake_container():
 
 @pytest.fixture(scope="package")
 def app():
+    from src.jobboard.adapters.entrypoints.application import app as original_app
+
     metadata.create_all(engine)
     yield original_app
     metadata.drop_all(engine)
